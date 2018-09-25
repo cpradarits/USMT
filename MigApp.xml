@@ -6969,7 +6969,40 @@
       </rules>
     </role>
   </component>
-
+  
+  <!-- IBM iAccess for Windows --> <!-- Edited by CAP-->
+  <component context="UserAndSystem" type="Application">
+    <displayName _locID="migapp.ibm">IBM iAccess</displayName>
+    <environment name="GlobalEnv"/>
+    <environment name="GlobalEnvX64"/>
+    <role role="Settings">
+      <detection>
+        <conditions>
+          <condition>MigXmlHelper.DoesObjectExist("Registry","%HklmWowSoftware%\IBM\Client Access\CurrentVersion [InstallPath]")</condition>
+		    </conditions>
+      </detection>
+      <rules context="User">
+        <destinationCleanup>
+          <objectSet>
+            <pattern type="File">%CSIDL_APPDATA%\IBM\Client Access\Emulator\private [*.log]</pattern>
+          </objectSet>
+        </destinationCleanup>
+        <include>
+          <objectSet>
+            <pattern type="File">%CSIDL_APPDATA%\IBM\* [*]</pattern>
+            <pattern type="Registry">HKCU\Software\IBM\* [*]</pattern>
+          </objectSet>
+        </include>
+        <merge script="MigXmlHelper.SourcePriority()">
+          <objectSet>
+            <pattern type="File">%CSIDL_APPDATA%\IBM\* [*]</pattern>
+            <pattern type="Registry">HKCU\Software\IBM\* [*]</pattern>
+          </objectSet>
+        </merge>
+      </rules>
+    </role>
+  </component>
+  
   <!-- Mozilla Firefox 3 -->
   <component context="UserAndSystem" type="Application">
     <displayName _locID="migapp.firefox3">Mozilla Firefox</displayName>
